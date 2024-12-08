@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudofy - Platform Pseudocode AI Tercanggih</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-theme">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="icon" href="/frontend/assets/icons/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-primary-dark: #0d1117; --bg-secondary-dark: #161b22; --border-dark: #30363d; --text-primary-dark: #c9d1d9; --text-secondary-dark: #8b949e;
+            --bg-primary-light: #ffffff; --bg-secondary-light: #f6f8fa; --border-light: #d0d7de; --text-primary-light: #24292f; --text-secondary-light: #57606a;
+        }
+        
+        html.dark { --bg-primary: var(--bg-primary-dark); --bg-secondary: var(--bg-secondary-dark); --border-color: var(--border-dark); --text-primary: var(--text-primary-dark); --text-secondary: var(--text-secondary-dark); }
+        html.light { --bg-primary: var(--bg-primary-light); --bg-secondary: var(--bg-secondary-light); --border-color: var(--border-light); --text-primary: var(--text-primary-light); --text-secondary: var(--text-secondary-light); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; }
+        .glass-header { background-color: rgba(16, 27, 34, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        html.light .glass-header { background-color: rgba(255, 255, 255, 0.8); }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: var(--bg-secondary); } ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; } html.light ::-webkit-scrollbar-thumb { background: #ccc; } ::-webkit-scrollbar-thumb:hover { background: #6b7280; } html.light ::-webkit-scrollbar-thumb:hover { background: #bbb; }
+        #result { background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 1rem; white-space: pre-wrap; word-wrap: break-word; min-height: 300px; transition: all 0.3s ease; }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #a78bfa, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <div class="flex flex-col min-h-screen">
+        <header class="glass-header border-b border-[var(--border-color)] sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" y1="20" x2="15" y2="20"></line>
+                            <line x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                        <h1 class="text-2xl font-bold text-[var(--text-primary)]">Pseudofy</h1>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <nav class="hidden md:flex items-center space-x-6 mr-4">
+                            <a href="#features" class="text-[var(--text-secondary)] hover:text-indigo-400 transition-colors duration-200">Fitur</a>
+                            <a href="#app" class="text-[var(--text-secondary)] hover:text-indigo-400 transition-colors duration-200">Generator</a>
+                        </nav>
+                        <button id="theme-toggle" class="p-2 rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] transition-colors">
+                            <i data-feather="sun" id="theme-icon-sun" class="w-5 h-5 hidden"></i>
+                            <i data-feather="moon" id="theme-icon-moon" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow">
+            <section class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center overflow-hidden">
+                <div class="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-purple-900/30 via-transparent to-indigo-900/30 rounded-full blur-3xl -z-10"></div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--text-primary)] tracking-tight"> Dari Logika Kompleks Menjadi <span class="text-gradient">Pseudocode</span> yang Rapi. Seketika. </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-base sm:text-lg text-[var(--text-secondary)]"> Pseudofy adalah *developer tool* berbasis AI yang dirancang untuk mempercepat alur kerja perencanaan dan dokumentasi Anda. Deskripsikan algoritma atau proses apa pun, dan dapatkan pseudocode yang terstruktur dan mudah dibaca dalam hitungan
+                    detik. </p>
+                <div class="mt-10 text-center">
+                    <a href="#app" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 md:py-4 md:px-10 rounded-full shadow-lg shadow-indigo-500/30 transform hover:scale-105 transition-all duration-300 ease-in-out"> Mulai Sekarang </a>
+                </div>
+            </section>
+        </main>
+        <section id="features" class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-[var(--text-primary)]">Toolkit Terbaik untuk Desain Algoritma</h3>
+                <p class="mt-2 text-lg text-[var(--text-secondary)]">Semua yang Anda butuhkan untuk perencanaan dan dokumentasi yang efisien.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <i data-feather="cpu" class="w-8 h-8 text-indigo-400"></i>
+                    <h4 class="text-xl font-semibold mt-4">Inti AI Canggih</h4>
+                    <p class="mt-2">Memanfaatkan model bahasa termutakhir untuk memahami konteks dan menghasilkan pseudocode yang sangat akurat.</p>
+                </div>
+                <div class="feature-card">
+                    <i data-feather="code" class="w-8 h-8 text-indigo-400"></i>
+                    <h4 class="text-xl font-semibold mt-4">Pewarnaan Sintaksis</h4>
+                    <p class="mt-2">Memformat output secara otomatis dengan pewarnaan sintaksis yang jelas dan mudah dibaca, seperti IDE sungguhan.</p>
+                </div>
+                <div class="feature-card">
+                    <i data-feather="clock" class="w-8 h-8 text-indigo-400"></i>
+                    <h4 class="text-xl font-semibold mt-4">Riwayat Tersimpan</h4>
+                    <p class="mt-2">Hasil generasi Anda disimpan secara otomatis di browser, memungkinkan Anda meninjau kembali kapan saja.</p>
+                </div>
+            </div>
+        </section>
+        <section id="app" class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl shadow-2xl shadow-indigo-900/10 p-4 sm:p-6 lg:p-8">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="flex flex-col space-y-4">
+                            <label for="pseudocode-input" class="text-lg font-semibold text-[var(--text-primary)] flex items-center">
+                                <i data-feather="edit-3" class="w-5 h-5 mr-2"></i>Deskripsikan Logika Anda </label>
+                            <textarea id="pseudocode-input" rows="12" class="w-full p-4 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 resize-y"
+                            placeholder="Contoh: Buat algoritma untuk mencari jalur terpendek dalam graf menggunakan metode Dijkstra..."></textarea>
+                            <div id="examples" class="pt-2">
+                                <h4 class="text-sm font-semibold text-[var(--text-secondary)] mb-3">Atau coba contoh ini:</h4>
+                                <div class="space-y-2">
+                                    <button class="example-btn">
+                                        <i data-feather="repeat" class="w-4 h-4 mr-2"></i>Hitung faktorial secara rekursif </button>
+                                    <button class="example-btn">
+                                        <i data-feather="hash" class="w-4 h-4 mr-2"></i>Cek bilangan prima </button>
+                                    <button class="example-btn">
+                                        <i data-feather="search" class="w-4 h-4 mr-2"></i>Algoritma binary search </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] flex items-center">
+                                        <i data-feather="terminal" class="w-5 h-5 mr-2"></i>Hasil Pseudocode AI
+                                    </h3>
+                                <button id="copy-btn" class="flex items-center px-3 py-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] hover:bg-opacity-80 text-sm text-[var(--text-secondary)] rounded-md transition-colors duration-200">
+                                    <i data-feather="copy" class="w-4 h-4 mr-2"></i>
+                                    <span id="copy-text">Salin</span>
+                                </button>
+                            </div>
+                            <div class="relative w-full h-full">
+                                <div id="loader" class="absolute inset-0 bg-[var(--bg-secondary)]/80 backdrop-blur-sm flex-col items-center justify-center rounded-lg z-10 hidden">
+                                    <svg class="animate-spin h-8 w-8 text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <p class="mt-3 text-[var(--text-primary)]">Memproses...</p>
+                                </div>
+                                <pre id="result">
+																<code class="language-pseudocode text-[var(--text-secondary)]">Hasil pseudocode Anda akan muncul di sini...</code>
+															</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex items-center justify-center gap-4">
+                        <button id="clear-btn" class="bg-transparent border border-[var(--border-color)] text-[var(--text-secondary)] font-bold py-3 px-8 rounded-full hover:bg-[var(--bg-primary)] transition-colors duration-300">Bersihkan</button>
+                        <button id="generate-btn" class="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out">
+                            <span class="flex items-center justify-center">
+                                    <i data-feather="zap" class="w-5 h-5 mr-2"></i>Generate </span>
+                        </button>
+                    </div>
+                </div>
+                <aside id="history-panel" class="lg:col-span-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl shadow-lg p-6 flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-[var(--text-primary)] flex items-center">
+                                <i data-feather="clock" class="w-5 h-5 mr-2"></i>Riwayat
+                            </h3>
+                        <button id="clear-history-btn" class="text-sm text-[var(--text-secondary)] hover:text-red-400 transition-colors">Hapus Semua</button>
+                    </div>
+                    <div id="history-list" class="flex-grow overflow-y-auto -mr-3 pr-3 space-y-2">
+                        <p id="history-placeholder" class="text-center text-[var(--text-secondary)] text-sm pt-8">Belum ada riwayat.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+        <section id="how-it-works" class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold text-[var(--text-primary)]">Bagaimana Cara Kerjanya?</h3>
+                <p class="mt-2 text-lg text-[var(--text-secondary)]">Proses yang sederhana untuk hasil yang luar biasa.</p>
+            </div>
+            <div class="relative">
+                <div class="hidden md:block absolute top-8 bottom-8 left-1/2 w-0.5 bg-[var(--border-color)]"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                    <div class="md:text-right">
+                        <div class="inline-block bg-[var(--bg-secondary)] border border-[var(--border-color)] p-4 rounded-lg">
+                            <i data-feather="edit" class="w-8 h-8 text-indigo-400"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mt-4">1. Tulis Deskripsi</h4>
+                        <p class="mt-2 text-[var(--text-secondary)]">Jelaskan algoritma, fungsi, atau logika yang Anda inginkan menggunakan bahasa natural yang mudah dipahami.</p>
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <div class="md:text-left">
+                        <div class="inline-block bg-[var(--bg-secondary)] border border-[var(--border-color)] p-4 rounded-lg">
+                            <i data-feather="zap" class="w-8 h-8 text-indigo-400"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mt-4">2. Klik Generate</h4>
+                        <p class="mt-2 text-[var(--text-secondary)]">Biarkan AI kami menganalisis permintaan Anda dan mengubahnya menjadi pseudocode yang terstruktur.</p>
+                    </div>
+                    <div class="md:text-right">
+                        <div class="inline-block bg-[var(--bg-secondary)] border border-[var(--border-color)] p-4 rounded-lg">
+                            <i data-feather="copy" class="w-8 h-8 text-indigo-400"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mt-4">3. Salin & Gunakan</h4>
+                        <p class="mt-2 text-[var(--text-secondary)]">Salin hasil yang sudah diformat dengan rapi untuk digunakan dalam dokumentasi atau perencanaan Anda.</p>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+        </section>
+        </main>
+        <footer class="bg-[var(--bg-secondary)] border-t border-[var(--border-color)]">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-6 md:space-y-0">
+                    <div class="md:w-1/3">
+                        <h4 class="font-semibold text-lg text-[var(--text-primary)]">Pseudofy</h4>
+                        <p class="text-sm text-[var(--text-secondary)] mt-2">Generator pseudocode berbasis AI untuk menyederhanakan proses pengembangan Anda.</p>
+                    </div>
+                    <div class="flex space-x-8">
+                        <a href="#features" class="text-sm text-[var(--text-secondary)] hover:text-indigo-400 transition-colors">Fitur</a>
+                        <a href="#app" class="text-sm text-[var(--text-secondary)] hover:text-indigo-400 transition-colors">Generator</a>
+                    </div>
+                    <div class="flex justify-center md:justify-end space-x-4">
+                        <a href="https://github.com/RozhakDev" class="text-[var(--text-secondary)] hover:text-indigo-400">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://x.com/rozhak_official" class="text-[var(--text-secondary)] hover:text-indigo-400">
+                            <i data-feather="twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rozhak" class="text-[var(--text-secondary)] hover:text-indigo-400">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-8 border-t border-[var(--border-color)] pt-6 text-center text-sm text-[var(--text-secondary)]">
+                    <p>&copy; 2024 Pseudofy. Hak Cipta Dilindungi.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/main.js" defer></script>
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            window.pseudofyUI = {};
+            const inputArea = document.getElementById('pseudocode-input');
+            const resultArea = document.getElementById('result');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const copyText = document.getElementById('copy-text');
+            const exampleBtns = document.querySelectorAll('.example-btn');
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+            const hljsTheme = document.getElementById('hljs-theme');
+            const htmlEl = document.documentElement;
+            const historyList = document.getElementById('history-list');
+            const clearHistoryBtn = document.getElementById('clear-history-btn');
+
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlEl.classList.add('dark'); htmlEl.classList.remove('light');
+                    moonIcon.style.display = 'block'; sunIcon.style.display = 'none';
+                    hljsTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+                } else {
+                    htmlEl.classList.add('light'); htmlEl.classList.remove('dark');
+                    moonIcon.style.display = 'none'; sunIcon.style.display = 'block';
+                    hljsTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+                }
+            };
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+            themeToggle.addEventListener('click', () => {
+                const newTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            const getHistory = () => JSON.parse(localStorage.getItem('pseudofyHistory')) || [];
+            const setHistory = (history) => localStorage.setItem('pseudofyHistory', JSON.stringify(history));
+
+            const renderHistory = () => {
+                const history = getHistory();
+                historyList.innerHTML = '';
+                if (history.length === 0) {
+                    historyList.innerHTML = '<p id="history-placeholder" class="text-center text-[var(--text-secondary)] text-sm pt-8">Belum ada riwayat.</p>';
+                } else {
+                    history.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'history-item';
+                        div.innerHTML = `<p class="font-medium text-[var(--text-primary)] truncate">${item.input}</p><p class="text-xs text-[var(--text-secondary)]">${new Date(item.timestamp).toLocaleString('id-ID')}</p>`;
+                        div.addEventListener('click', () => {
+                            inputArea.value = item.input;
+                            const resultCode = resultArea.querySelector('code');
+                            resultCode.textContent = item.output;
+                            hljs.highlightElement(resultCode);
+                        });
+                        historyList.appendChild(div);
+                    });
+                }
+            };
+
+            window.pseudofyUI.saveToHistory = (input, output) => {
+                if (!input.trim()) return;
+                let history = getHistory();
+                const newEntry = { input, output, timestamp: new Date().toISOString() };
+                history.unshift(newEntry);
+                if (history.length > 20) history.pop();
+                setHistory(history);
+                renderHistory();
+            };
+            
+            clearHistoryBtn.addEventListener('click', () => {
+                setHistory([]);
+                renderHistory();
+            });
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(resultArea.querySelector('code').innerText).then(() => {
+                    copyText.innerText = 'Tersalin!';
+                    setTimeout(() => { copyText.innerText = 'Salin'; }, 2000);
+                });
+            });
+            
+            exampleBtns.forEach(btn => btn.addEventListener('click', () => {
+                inputArea.value = btn.innerText;
+                inputArea.focus();
+            }));
+
+            clearBtn.addEventListener('click', () => {
+                inputArea.value = '';
+                resultArea.querySelector('code').textContent = 'Hasil pseudocode Anda akan muncul di sini...';
+            });
+
+            renderHistory();
+            feather.replace();
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .feature-card { background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 0.75rem; padding: 2rem; text-align: center; transition: all 0.3s ease; }
+                .feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border-color: #4f46e5; }
+                html.light .feature-card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); }
+                .example-btn { width: 100%; display: flex; align-items: center; text-align: left; padding: 8px 12px; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 0.875rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; }
+                .example-btn:hover { background-color: var(--bg-secondary); border-color: #4f46e5; color: var(--text-primary); }
+                .history-item { padding: 0.75rem; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; }
+                .history-item:hover { border-color: #4f46e5; background-color: var(--bg-secondary); }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>
